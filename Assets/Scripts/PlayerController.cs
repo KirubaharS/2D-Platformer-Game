@@ -8,6 +8,13 @@ public class PlayerController : MonoBehaviour
     public float speed;
     public float jump;
 
+    public Transform GroundCheckPosition;
+    public LayerMask GroundLayer;
+
+    private bool isGrounded;
+    private bool jumped;
+    private float jumpPower = 10f;
+
     private Rigidbody2D playerBody;
 
     private void Awake()
@@ -16,38 +23,69 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    private void Update()
+    {
+        CheckIfGrounded();
+        PlayerJump();
+    }
+
+    private void FixedUpdate()
+    {
+        PlayerWalk();
+        
+    }
+
     void PlayerWalk ()
     {
         float horizontal = Input.GetAxisRaw("Horizontal");
+        float vertical = Input.GetAxisRaw("Jump");
         if (horizontal > 0) {
             playerBody.velocity = new Vector2(speed, playerBody.velocity.y);
         } else if (horizontal < 0) {
             playerBody.velocity = new Vector2(-speed, playerBody.velocity.y);
-        }
-        //PlayMovementAnimation(horizontal, vertical);
-    }
-
-    private void Update()
-    {
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Jump");
-        MoveCharacter(horizontal, vertical);
-        PlayMovementAnimation(horizontal, vertical);
-
-    }
-
-    private void MoveCharacter(float horizontal, float vertical)
-    {        
-        Vector3 position = transform.position;
-        position.x += horizontal * speed * Time.deltaTime;
-        transform.position = position;
-          
-        
-        if (vertical > 0 ) 
+        } else
         {
-            playerBody.AddForce(new Vector2 (0f, jump), ForceMode2D.Force);
+            playerBody.velocity = new Vector2(0f, playerBody.velocity.y);
+        }
+        animator.SetFloat("Speed", Mathf.Abs(playerBody.velocity.x));
+        Vector3 scale = transform.localScale;
+        if (horizontal < 0f)
+        {
+            scale.x = -1f * Mathf.Abs(scale.x);
+        }
+        else if (horizontal > 0f)
+        {
+            scale.x = Mathf.Abs(scale.x);
+        }
+        transform.localScale = scale;
+    }
+
+    void CheckIfGrounded ()
+    {
+        isGrounded = Physics2D.Raycast(GroundCheckPosition.position, Vector2.down, 0.1f, GroundLayer);
+        if(isGrounded)
+        {
+            if(jumped)
+            {
+                jumped=false;
+                animator.SetBool ("Jump", false);
+            }
         }
     }
+
+    void PlayerJump ()
+    {
+        if(isGrounded)
+        {
+            if(Input.GetKeyDown(KeyCode.Space))
+            {
+                jumped = true;
+                playerBody.velocity = new Vector2(playerBody.velocity.x, jumpPower);
+                animator.SetBool("Jump", true);
+            }
+        }
+    }
+
 
     private void PlayMovementAnimation(float horizontal, float vertical)
     {
