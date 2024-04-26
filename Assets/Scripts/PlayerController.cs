@@ -1,9 +1,11 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public ScoreController scoreController;
     public Animator animator;
     public float speed;
     public float jump;
@@ -13,7 +15,7 @@ public class PlayerController : MonoBehaviour
 
     private bool isGrounded;
     private bool jumped;
-    private float jumpPower = 10f;
+    private float jumpPower = 12f;
 
     private Rigidbody2D playerBody;
 
@@ -126,6 +128,9 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
-
+    public void PickUpKey()
+    {
+        Debug.Log("Player Picked Up The Key");
+        scoreController.IncreaseScore(10);
+    }
 }
