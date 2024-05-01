@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    public GameOverController gameOverController;
     public ScoreController scoreController;
     public Animator animator;
     public float speed;
@@ -137,12 +138,9 @@ public class PlayerController : MonoBehaviour
 
     public void KillPlayer()
     {
+        gameOverController.PlayerDied();
         Debug.Log("Player Killed By The Enemy");
-        ReloadLevel();
+        this.enabled = false;
     }
 
-    private void ReloadLevel()
-    {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-    }
 }
