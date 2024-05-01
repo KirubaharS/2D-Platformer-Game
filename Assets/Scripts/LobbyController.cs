@@ -21,6 +21,8 @@ public class LobbyController : MonoBehaviour
         SceneManager.LoadScene(1);
     }
 
+
+
     private void QuitGame()
     {
         Application.Quit();
