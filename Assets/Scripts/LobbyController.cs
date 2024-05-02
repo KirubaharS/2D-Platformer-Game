@@ -1,12 +1,9 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class LobbyController : MonoBehaviour
 {
+    public GameObject LevelSelection;
     public Button buttonPlay;
     public Button buttonQuit;
 
@@ -18,10 +15,8 @@ public class LobbyController : MonoBehaviour
 
     private void PlayGame()
     {
-        SceneManager.LoadScene(1);
+        LevelSelection.SetActive(true);        
     }
-
-
 
     private void QuitGame()
     {
