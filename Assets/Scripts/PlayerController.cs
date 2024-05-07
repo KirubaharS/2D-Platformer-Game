@@ -41,6 +41,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerWalk ()
     {
+        SoundManager.Instance.PlayMusic(Sounds.PlayerMove);
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Jump");
         if (horizontal > 0) {
