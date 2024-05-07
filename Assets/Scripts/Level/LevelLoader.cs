@@ -4,8 +4,7 @@ using UnityEngine.UI;
 
 [RequireComponent(typeof(Button))]
 public class LevelLoader : MonoBehaviour
-{
-    
+{    
     private Button button;
     public string LevelName;
     private void Awake()
@@ -31,6 +30,6 @@ public class LevelLoader : MonoBehaviour
                 Debug.Log("Level Complete");
                 break;
         }
-        SceneManager.LoadScene(LevelName);
+        
     }
 }
