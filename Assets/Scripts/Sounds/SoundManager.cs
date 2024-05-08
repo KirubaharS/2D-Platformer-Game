@@ -13,6 +13,9 @@ public class SoundManager : MonoBehaviour
 
     public SoundType[] Sounds;
 
+    public bool IsMute = false;
+    public float Volume = 1f;
+
     private void Awake()
     {
         if (instance == null)
@@ -28,11 +31,26 @@ public class SoundManager : MonoBehaviour
 
     private void Start()
     {
+        SetVolume(0.5f);
         PlayMusic(global::Sounds.Music);
+    }
+
+    public void SetVolume(float volume)
+    {
+        Volume = volume;
+        soundEffect.volume = volume;
+        soundMusic.volume = volume;
+    }
+
+    public void Mute(bool status)
+    {
+        IsMute = status;
     }
 
     public void Play(Sounds sound)
     {
+        if (IsMute)
+            return;
         AudioClip clip = getSoundClip(sound);
         if (clip != null)
         {
@@ -45,6 +63,8 @@ public class SoundManager : MonoBehaviour
 
     public void PlayMusic(Sounds sound)
     {
+        if (IsMute)
+            return;
         AudioClip clip = getSoundClip(sound);
         if (clip != null)
         {
