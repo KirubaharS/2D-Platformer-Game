@@ -41,7 +41,7 @@ public class PlayerController : MonoBehaviour
 
     void PlayerWalk ()
     {
-        SoundManager.Instance.PlayMusic(Sounds.PlayerMove);
+        //SoundManager.Instance.PlayMusic(Sounds.PlayerMove);
         float horizontal = Input.GetAxisRaw("Horizontal");
         float vertical = Input.GetAxisRaw("Jump");
         if (horizontal > 0) {
@@ -63,6 +63,8 @@ public class PlayerController : MonoBehaviour
             scale.x = Mathf.Abs(scale.x);
         }
         transform.localScale = scale;
+
+        print("Value is " + horizontal);
     }
 
     void CheckIfGrounded ()
@@ -140,6 +142,7 @@ public class PlayerController : MonoBehaviour
     public void KillPlayer()
     {
         gameOverController.PlayerDied();
+        HealthManager.ResetHealth();
         Debug.Log("Player Killed By The Enemy");
         this.enabled = false;
     }
